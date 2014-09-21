@@ -1,7 +1,7 @@
 package flow.concurrent;
 
 #if !js
-    import std.ds.SynchronizedList;
+    import lib.ds.SynchronizedList;
 #end
 import flow.Cascade.Tier;
 

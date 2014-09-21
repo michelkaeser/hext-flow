@@ -2,8 +2,8 @@ package flow.concurrent;
 
 import flow.State;
 import flow.WorkflowException;
-import std.vm.IMutex;
-import std.vm.Mutex;
+import lib.vm.IMutex;
+import lib.vm.Mutex;
 
 /**
  * Thread-safe Future implementation.
@@ -18,7 +18,7 @@ class Future<T> extends flow.Future<T>
     /**
      * Stores the Mutex used to synchronize access to properties.
      *
-     * @var std.vm.IMutex
+     * @var lib.vm.IMutex
      */
     private var mutex:IMutex;
 

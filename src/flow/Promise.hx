@@ -2,10 +2,10 @@ package flow;
 
 import flow.State;
 import flow.WorkflowException;
-import std.Callback;
-import std.Exception;
-import std.ds.IList;
-import std.ds.LinkedList;
+import lib.Callback;
+import lib.Exception;
+import lib.ds.IList;
+import lib.ds.LinkedList;
 
 /**
  * A Promise can be used to execute registered callbacks as soon as
@@ -28,7 +28,7 @@ class Promise<T>
     /**
      * Stores the callbacks to be executed for the various state events.
      *
-     * @var { done:std.ds.IList<std.Callback<T>>, rejected:std.ds.IList<std.Callback<T>>, resolved:std.ds.IList<std.Callback<T>> }
+     * @var { done:lib.ds.IList<lib.Callback<T>>, rejected:lib.ds.IList<lib.Callback<T>>, resolved:lib.ds.IList<lib.Callback<T>> }
      */
     private var callbacks:{
         done:IList<Callback<T>>,
@@ -64,7 +64,7 @@ class Promise<T>
      * Method allowing to register callbacks to be executed when the Promise
      * has been marked as done.
      *
-     * @param std.Callback<T> callback the callback to register
+     * @param lib.Callback<T> callback the callback to register
      *
      * @throws flow.WorkflowException if the Promise has already been marked as done
      */
@@ -80,7 +80,7 @@ class Promise<T>
     /**
      * Executes the registered callbacks with the provided argument.
      *
-     * @param Iterable<std.Callback<T>> callbacks the callbacks to execute
+     * @param Iterable<lib.Callback<T>> callbacks the callbacks to execute
      * @param T                         arg       the argument to pass to the callbacks
      */
     private function executeCallbacks(callbacks:Iterable<Callback<T>>, arg:T):Void
@@ -152,7 +152,7 @@ class Promise<T>
      * Method allowing to register callbacks to be executed when the Promise
      * has rejected.
      *
-     * @param std.Callback<T> callback the callback to register
+     * @param lib.Callback<T> callback the callback to register
      *
      * @throws flow.WorkflowException if the Promise has already been marked as done
      */
@@ -195,7 +195,7 @@ class Promise<T>
      * Method allowing to register callbacks to be executed when the Promise
      * has resolved.
      *
-     * @param std.Callback<T> callback the callback to register
+     * @param lib.Callback<T> callback the callback to register
      *
      * @throws flow.WorkflowException if the Promise has already been marked as done
      */

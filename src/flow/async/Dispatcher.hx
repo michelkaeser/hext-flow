@@ -6,10 +6,10 @@ import flow.Dispatcher.Status;
 #else
     import flow.async.Promise;
 #end
-import std.Callback;
-import std.Nil;
-import std.threading.ExecutionContext;
-import std.threading.IExecutor;
+import lib.Callback;
+import lib.Nil;
+import lib.threading.ExecutionContext;
+import lib.threading.IExecutor;
 
 /**
  * This Dispatcher implementation is a thread-safe, asynchronous implementation.
@@ -23,7 +23,7 @@ class Dispatcher<T> extends flow.concurrent.Dispatcher<T>
     /**
      * Stores the Executor used to process Callbacks.
      *
-     * @var std.threading.IExecutor
+     * @var lib.threading.IExecutor
      */
     private var executor:IExecutor;
 
@@ -31,7 +31,7 @@ class Dispatcher<T> extends flow.concurrent.Dispatcher<T>
     /**
      * Constructor to initialize a new asynchronous Dispatcher.
      *
-     * @param std.threading.IExecutor the Callback Executor to use
+     * @param lib.threading.IExecutor the Callback Executor to use
      */
     public function new(executor:IExecutor):Void
     {

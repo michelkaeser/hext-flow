@@ -2,10 +2,10 @@ package flow.concurrent;
 
 import flow.State;
 import flow.WorkflowException;
-import std.Callback;
+import lib.Callback;
 #if !js
-    import std.vm.IMutex;
-    import std.vm.Mutex;
+    import lib.vm.IMutex;
+    import lib.vm.Mutex;
 #end
 
 /**
@@ -21,7 +21,7 @@ class Promise<T> extends flow.Promise<T>
     /**
      * Stores the Mutex used to synchronize access to properties.
      *
-     * @var std.vm.IMutex
+     * @var lib.vm.IMutex
      */
     #if !js private var mutex:IMutex; #end
 

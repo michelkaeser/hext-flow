@@ -52,7 +52,7 @@ class TestFuture extends haxe.unit.TestCase
         try {
             this.future.get(false);
             assertFalse(true);
-        } catch (ex:hxdispatch.WorkflowException) {
+        } catch (ex:flow.WorkflowException) {
             assertTrue(true);
         }
     }
@@ -118,7 +118,7 @@ class TestFuture extends haxe.unit.TestCase
         try {
             this.future.reject();
             assertFalse(true);
-        } catch (ex:hxdispatch.WorkflowException) {
+        } catch (ex:flow.WorkflowException) {
             assertTrue(true);
         }
     }
@@ -133,7 +133,7 @@ class TestFuture extends haxe.unit.TestCase
         try {
             this.future.resolve(5);
             assertFalse(true);
-        } catch (ex:hxdispatch.WorkflowException) {
+        } catch (ex:flow.WorkflowException) {
             assertTrue(true);
         }
     }

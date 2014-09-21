@@ -1,29 +1,29 @@
-package hxdispatch.tests.async;
+package flow.tests.async;
 
-import hxdispatch.async.Promise;
+import flow.async.Promise;
 
 /**
- * TestSuite for the hxdispatch.async.Promise class.
+ * TestSuite for the flow.async.Promise class.
  *
  * TODO: async specific tests
  * TODO: mock ThreadExecutor
  */
-class TestPromise extends hxdispatch.tests.concurrent.TestPromise
+class TestPromise extends flow.tests.concurrent.TestPromise
 {
     /**
      * @{inherit}
      */
     override public function setup():Void
     {
-        this.promise = new Promise<Int>(new hxstd.threading.ThreadExecutor());
+        this.promise = new Promise<Int>(new lib.threading.ThreadExecutor());
     }
 
     /**
      * @{inherit}
      */
-    override private function getPromise(?resolves:Int = 1):hxdispatch.async.Promise<Dynamic>
+    override private function getPromise(resolves:Int = 1):flow.async.Promise<Dynamic>
     {
-        return new Promise<Dynamic>(new hxstd.threading.ThreadExecutor(), resolves);
+        return new Promise<Dynamic>(new lib.threading.ThreadExecutor(), resolves);
     }
 
 

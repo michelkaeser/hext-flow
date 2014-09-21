@@ -1,20 +1,20 @@
-package hxdispatch.tests.async;
+package flow.tests.async;
 
-import hxdispatch.async.Cascade;
+import flow.async.Cascade;
 
 /**
- * TestSuite for the hxdispatch.async.Cascade class.
+ * TestSuite for the flow.async.Cascade class.
  *
  * TODO: mock ThreadExecutor
  */
-class TestCascade extends hxdispatch.tests.concurrent.TestCascade
+class TestCascade extends flow.tests.concurrent.TestCascade
 {
     /**
      * @{inherit}
      */
     override public function setup():Void
     {
-        this.cascade = new Cascade<Int>(new hxstd.threading.ThreadExecutor());
+        this.cascade = new Cascade<Int>(new lib.threading.ThreadExecutor());
     }
 
 

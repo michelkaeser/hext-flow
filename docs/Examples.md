@@ -8,7 +8,7 @@
 ```haxe
 import flow.async.Cascade;
 import flow.async.Future;
-import std.threading.ExecutionContext;
+import lib.threading.ExecutionContext;
 
 var c:Cascade<Int> = new Cascade<Int>(ExecutionContext.parallelExecutor);
 
@@ -27,7 +27,7 @@ trace(f.get(true));              // should output '8'
 
 ```haxe
 import flow.async.Future;
-import std.vm.Thread;
+import lib.vm.Thread;
 
 var f:Future<Int> = new Future<Int>();
 Thread.create(function():Void {
@@ -45,9 +45,9 @@ import flow.Dispatcher.Status;
 import flow.async.Dispatcher;
 import flow.async.Dispatcher.Feedback;
 import flow.async.Promise;
-import std.Nil;
-import std.threading.ExecutionContext;
-import std.vm.Thread;
+import lib.Nil;
+import lib.threading.ExecutionContext;
+import lib.vm.Thread;
 
 var d:Dispatcher<Int> = new Dispatcher<Int>(ExecutionContext.parallelExecutor);
 
@@ -66,7 +66,7 @@ if (f.status == Status.TRIGGERED) {
 
 ```haxe
 import flow.async.Promise;
-import std.threading.ExecutionContext;
+import lib.threading.ExecutionContext;
 
 var p:Promise<Int> = new Promise<Int>(ExecutionContext.parallelExecutor);
 

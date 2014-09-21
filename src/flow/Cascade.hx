@@ -1,7 +1,7 @@
 package flow;
 
-import std.ds.IList;
-import std.ds.LinkedList;
+import lib.ds.IList;
+import lib.ds.LinkedList;
 
 /**
  * The Cascade (waterfall) class can be used to execute functions
@@ -15,7 +15,7 @@ class Cascade<T>
     /**
      * Stores the Tiers.
      *
-     * @var std.ds.IList<flow.Cascade.Tier<T>>
+     * @var lib.ds.IList<flow.Cascade.Tier<T>>
      */
     private var tiers:IList<Tier<T>>;
 

@@ -158,7 +158,7 @@ class TestDispatcher extends haxe.unit.TestCase
      */
     public function testHasEvent():Void
     {
-        var event:hxdispatch.Event = "event";
+        var event:flow.Event = "event";
         assertFalse(this.dispatcher.hasEvent(event));
         this.dispatcher.register(event);
         assertTrue(this.dispatcher.hasEvent(event));

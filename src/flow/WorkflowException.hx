@@ -1,7 +1,7 @@
 package flow;
 
 import haxe.PosInfos;
-import std.Exception;
+import lib.Exception;
 
 /**
  * Exception to signalize problems in the workflow/code flow

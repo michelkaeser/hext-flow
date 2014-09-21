@@ -3,7 +3,7 @@ package flow.tests;
 import flow.Promise;
 
 /**
- * TestSuite for the hxdispatch.Promise class.
+ * TestSuite for the flow.Promise class.
  */
 class TestPromise extends haxe.unit.TestCase
 {
@@ -36,9 +36,9 @@ class TestPromise extends haxe.unit.TestCase
      *
      * @param Int resolves the number of resolves the Promise requires
      *
-     * @return hxdispatch.Promise<Dynamic>
+     * @return flow.Promise<Dynamic>
      */
-    private function getPromise(?resolves:Int = 1):Promise<Dynamic>
+    private function getPromise(resolves:Int = 1):Promise<Dynamic>
     {
         return new Promise<Dynamic>(resolves);
     }
@@ -93,7 +93,7 @@ class TestPromise extends haxe.unit.TestCase
         try {
             this.promise.done(function(arg:Int):Void {});
             assertFalse(true);
-        } catch (ex:hxdispatch.WorkflowException) {
+        } catch (ex:flow.WorkflowException) {
             assertTrue(true);
         }
     }
@@ -224,7 +224,7 @@ class TestPromise extends haxe.unit.TestCase
         try {
             this.promise.reject(0);
             assertFalse(true);
-        } catch (ex:hxdispatch.WorkflowException) {
+        } catch (ex:flow.WorkflowException) {
             assertTrue(true);
         }
     }
@@ -276,7 +276,7 @@ class TestPromise extends haxe.unit.TestCase
         try {
             this.promise.rejected(function(arg:Int):Void {});
             assertFalse(true);
-        } catch (ex:hxdispatch.WorkflowException) {
+        } catch (ex:flow.WorkflowException) {
             assertTrue(true);
         }
     }
@@ -291,7 +291,7 @@ class TestPromise extends haxe.unit.TestCase
         try {
             this.promise.resolve(0);
             assertFalse(true);
-        } catch (ex:hxdispatch.WorkflowException) {
+        } catch (ex:flow.WorkflowException) {
             assertTrue(true);
         }
     }
@@ -343,7 +343,7 @@ class TestPromise extends haxe.unit.TestCase
         try {
             this.promise.resolved(function(arg:Int):Void {});
             assertFalse(true);
-        } catch (ex:hxdispatch.WorkflowException) {
+        } catch (ex:flow.WorkflowException) {
             assertTrue(true);
         }
     }
@@ -427,7 +427,7 @@ class TestPromise extends haxe.unit.TestCase
         try {
             Promise.when([p, p2]);
             assertFalse(true);
-        } catch (ex:hxdispatch.WorkflowException) {
+        } catch (ex:flow.WorkflowException) {
             assertTrue(true);
         }
     }

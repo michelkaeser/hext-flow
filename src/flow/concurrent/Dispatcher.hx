@@ -3,11 +3,11 @@ package flow.concurrent;
 import flow.Dispatcher.Feedback;
 import flow.Dispatcher.Status;
 import flow.Event;
-import std.Callback;
-import std.ds.LinkedList;
+import lib.Callback;
+import lib.ds.LinkedList;
 #if !js
-    import std.vm.IMutex;
-    import std.vm.Mutex;
+    import lib.vm.IMutex;
+    import lib.vm.Mutex;
 #end
 
 /**
@@ -21,7 +21,7 @@ class Dispatcher<T> extends flow.Dispatcher<T>
     /**
      * Stores the Mutex used to synchronize access.
      *
-     * @var std.vm.IMutex
+     * @var lib.vm.IMutex
      */
     #if !js private var mutex:IMutex; #end
 

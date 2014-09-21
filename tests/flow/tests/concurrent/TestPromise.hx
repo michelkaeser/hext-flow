@@ -18,7 +18,7 @@ class TestPromise extends flow.tests.TestPromise
     /**
      * @{inherit}
      */
-    override private function getPromise(?resolves:Int = 1):flow.concurrent.Promise<Dynamic>
+    override private function getPromise(resolves:Int = 1):flow.concurrent.Promise<Dynamic>
     {
         return new Promise<Dynamic>(resolves);
     }

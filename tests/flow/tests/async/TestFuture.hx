@@ -1,12 +1,12 @@
-package hxdispatch.tests.async;
+package flow.tests.async;
 
-import hxdispatch.async.Future;
-import hxstd.vm.Thread;
+import flow.async.Future;
+import lib.vm.Thread;
 
 /**
- * TestSuite for the hxdispatch.async.Future class.
+ * TestSuite for the flow.async.Future class.
  */
-class TestFuture extends hxdispatch.tests.concurrent.TestFuture
+class TestFuture extends flow.tests.concurrent.TestFuture
 {
     /**
      * @{inherit}
@@ -31,7 +31,7 @@ class TestFuture extends hxdispatch.tests.concurrent.TestFuture
     }
 
     /**
-     * Ensures that the get() method throws a hxdispatch.WorkflowExceiton when being called
+     * Ensures that the get() method throws a flow.WorkflowExceiton when being called
      * with argument 'false' and the value is not yet available.
      */
     public function testGetFalseThrowsWorkFlowException():Void
@@ -39,7 +39,7 @@ class TestFuture extends hxdispatch.tests.concurrent.TestFuture
         try {
             this.future.get(false);
             assertFalse(true);
-        } catch (ex:hxdispatch.WorkflowException) {
+        } catch (ex:flow.WorkflowException) {
             assertTrue(true);
         }
     }

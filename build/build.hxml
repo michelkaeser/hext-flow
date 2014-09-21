@@ -4,7 +4,7 @@
 -cp   tests
 -main flow/tests/Runner.hx
 -lib  mcover
--lib  std
+-lib  lib
 -cpp  bin/cpp
 -D    HXCPP_M64
 -D    HXCPP_NO_COLOUR
@@ -15,7 +15,7 @@
 -cp   src
 -cp   tests
 -main flow/tests/Runner.hx
--lib  std
+-lib  lib
 -cs   bin/cs
 
 # Java
@@ -23,7 +23,7 @@
 -cp   src
 -cp   tests
 -main flow/tests/Runner.hx
--lib  std
+-lib  lib
 -java bin/java
 
 # JS
@@ -31,7 +31,7 @@
 -cp   src
 -cp   tests
 -main flow/tests/Runner.hx
--lib  std
+-lib  lib
 -js   bin/Runner.js
 
 # Lua
@@ -39,8 +39,8 @@
 -cp   src
 -cp   tests
 -main flow/tests/Runner.hx
+-lib  lib
 -lib  luaxe
--lib  std
 -js   bin/Runner.lua
 -D    lua
 --macro luaxe.LuaGenerator.use()
@@ -50,7 +50,7 @@
 -cp   src
 -cp   tests
 -main flow/tests/Runner.hx
--lib  std
+-lib  lib
 -neko bin/Runner.n
 
 # SWF
@@ -58,7 +58,7 @@
 -cp   src
 -cp   tests
 -main flow/tests/Runner.hx
--lib  std
+-lib  lib
 -swf-version 11.4
 -swf  bin/Runner.swf
 
@@ -67,5 +67,5 @@
 -cp   src
 -cp   tests
 -main flow/tests/Runner.hx
--lib  std
+-lib  lib
 -php  bin/php

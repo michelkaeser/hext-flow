@@ -2,7 +2,7 @@ package flow.async;
 
 import flow.State;
 import flow.WorkflowException;
-import std.vm.MultiLock;
+import lib.vm.MultiLock;
 
 /**
  * Asynchronous Future implementation.
@@ -14,7 +14,7 @@ class Future<T> extends flow.concurrent.Future<T>
     /**
      * Stores the Lock used to block get() callers.
      *
-     * @var std.vm.MultiLock
+     * @var lib.vm.MultiLock
      */
     private var lock:MultiLock;
 

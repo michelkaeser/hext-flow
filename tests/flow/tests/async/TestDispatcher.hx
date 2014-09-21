@@ -1,21 +1,21 @@
-package hxdispatch.tests.async;
+package flow.tests.async;
 
-import hxdispatch.async.Dispatcher;
+import flow.async.Dispatcher;
 
 /**
- * TestSuite for the hxdispatch.async.Dispatcher class.
+ * TestSuite for the flow.async.Dispatcher class.
  *
  * TODO: async specific tests
  * TODO: mock ThreadExecutor
  */
-class TestDispatcher extends hxdispatch.tests.concurrent.TestDispatcher
+class TestDispatcher extends flow.tests.concurrent.TestDispatcher
 {
     /**
      * @{inherit}
      */
     override public function setup():Void
     {
-        this.dispatcher = new Dispatcher<Int>(new hxstd.threading.ThreadExecutor());
+        this.dispatcher = new Dispatcher<Int>(new lib.threading.ThreadExecutor());
     }
 
 
@@ -122,7 +122,7 @@ class TestDispatcher extends hxdispatch.tests.concurrent.TestDispatcher
     override public function testTriggerExistingEvent():Void
     {
         this.dispatcher.register("event");
-        assertEquals(this.dispatcher.trigger("event", 0).status, hxdispatch.Dispatcher.Status.TRIGGERED);
+        assertEquals(this.dispatcher.trigger("event", 0).status, flow.Dispatcher.Status.TRIGGERED);
     }
 
     /**

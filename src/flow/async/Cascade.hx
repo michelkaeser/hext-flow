@@ -4,7 +4,7 @@ import flow.Cascade.Tier;
 #if !js
     import flow.async.Future;
 #end
-import std.threading.IExecutor;
+import lib.threading.IExecutor;
 
 /**
  * This Cascade implementation is a thread-safe, asynchronous implementation.
@@ -18,7 +18,7 @@ class Cascade<T> extends flow.concurrent.Cascade<T>
     /**
      * Stores the Executor used to process the Tiers.
      *
-     * @var std.threading.IExecutor
+     * @var lib.threading.IExecutor
      */
     private var executor:IExecutor;
 
@@ -26,7 +26,7 @@ class Cascade<T> extends flow.concurrent.Cascade<T>
     /**
      * Constructor to initialize a new asynchronous Cascade.
      *
-     * @param std.threading.IExecutor the Tier Executor to use
+     * @param lib.threading.IExecutor the Tier Executor to use
      */
     public function new(executor:IExecutor):Void
     {

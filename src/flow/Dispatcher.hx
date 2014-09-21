@@ -2,9 +2,9 @@ package flow;
 
 import Map;
 import flow.Event;
-import std.Callback;
-import std.ds.IList;
-import std.ds.LinkedList;
+import lib.Callback;
+import lib.ds.IList;
+import lib.ds.LinkedList;
 
 /**
  * The Dispatcher class can be used to have a central Event dispatching service/instance.
@@ -21,7 +21,7 @@ class Dispatcher<T>
     /**
      * Stores a map of Events and their Callbacks.
      *
-     * @var Map<Event, std.ds.IList<std.Callback<T>>>
+     * @var Map<Event, lib.ds.IList<lib.Callback<T>>>
      */
     private var map:Map<Event, IList<Callback<T>>>;
 
@@ -38,7 +38,7 @@ class Dispatcher<T>
      * Attachs the Callback to the Event.
      *
      * @param flow.Event            event    the Event to attach to
-     * @param Null<std.Callback<T>> callback the Callback to add
+     * @param Null<lib.Callback<T>> callback the Callback to add
      *
      * @return Bool true if attached
      */
@@ -62,7 +62,7 @@ class Dispatcher<T>
      * Dettachs the Callback from the Event.
      *
      * @param flow.Event            event    the Event to dettach from
-     * @param Null<std.Callback<T>> callback the Callback to remove
+     * @param Null<lib.Callback<T>> callback the Callback to remove
      *
      * @return Bool true if dettached successfully
      */
@@ -80,7 +80,7 @@ class Dispatcher<T>
     /**
      * Executes the Callbacks with the provided argument.
      *
-     * @param Iterable<std.Callback<T>> callbacks the Callbacks to execute
+     * @param Iterable<lib.Callback<T>> callbacks the Callbacks to execute
      * @param T                         arg      the argument to pass to the Callbacks
      */
     private function executeCallbacks(callbacks:Iterable<Callback<T>>, arg:T):Void

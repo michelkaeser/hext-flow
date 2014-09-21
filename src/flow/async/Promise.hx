@@ -1,9 +1,10 @@
 package flow.async;
 
-import std.threading.ExecutionContext;
-import std.threading.IExecutor;
+import lib.Callback;
+import lib.threading.ExecutionContext;
+import lib.threading.IExecutor;
 #if !js
-    import std.vm.MultiLock;
+    import lib.vm.MultiLock;
 #end
 
 /**
@@ -21,7 +22,7 @@ class Promise<T> extends flow.concurrent.Promise<T>
     /**
      * Stores the Executor used to process Callbacks.
      *
-     * @var std.threading.IExecutor
+     * @var lib.threading.IExecutor
      */
     private var executor:IExecutor;
 
@@ -29,7 +30,7 @@ class Promise<T> extends flow.concurrent.Promise<T>
         /**
          * Stores the Lock used to block await() callers.
          *
-         * @var std.vm.MultiLock
+         * @var lib.vm.MultiLock
          */
         private var lock:MultiLock;
 
@@ -43,7 +44,7 @@ class Promise<T> extends flow.concurrent.Promise<T>
 
 
     /**
-     * @param std.threading.IExecutor the Callback Executor to use
+     * @param lib.threading.IExecutor the Callback Executor to use
      *
      * @{inherit}
      */
