@@ -1,0 +1,71 @@
+# C++
+--next
+-cp   src
+-cp   tests
+-main flow/tests/Runner.hx
+-lib  mcover
+-lib  std
+-cpp  bin/cpp
+-D    HXCPP_M64
+-D    HXCPP_NO_COLOUR
+--macro mcover.MCover.coverage([''], ['src'])
+
+# C#
+--next
+-cp   src
+-cp   tests
+-main flow/tests/Runner.hx
+-lib  std
+-cs   bin/cs
+
+# Java
+--next
+-cp   src
+-cp   tests
+-main flow/tests/Runner.hx
+-lib  std
+-java bin/java
+
+# JS
+--next
+-cp   src
+-cp   tests
+-main flow/tests/Runner.hx
+-lib  std
+-js   bin/Runner.js
+
+# Lua
+--next
+-cp   src
+-cp   tests
+-main flow/tests/Runner.hx
+-lib  luaxe
+-lib  std
+-js   bin/Runner.lua
+-D    lua
+--macro luaxe.LuaGenerator.use()
+
+# Neko
+--next
+-cp   src
+-cp   tests
+-main flow/tests/Runner.hx
+-lib  std
+-neko bin/Runner.n
+
+# SWF
+--next
+-cp   src
+-cp   tests
+-main flow/tests/Runner.hx
+-lib  std
+-swf-version 11.4
+-swf  bin/Runner.swf
+
+# PHP
+--next
+-cp   src
+-cp   tests
+-main flow/tests/Runner.hx
+-lib  std
+-php  bin/php

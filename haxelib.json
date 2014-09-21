@@ -1,0 +1,16 @@
+{
+    "name": "flow",
+    "url" : "https://github.com/MaddinXx/hx-flow",
+    "license": "MIT",
+    "tags": ["dispatch", "promise", "future", "async", "threaded", "event", "signal", "flow"],
+    "description": "An optionally asynchronous flow library.",
+    "classPath": "src",
+    "dependencies": {
+        "std": ""
+    },
+    "version": "0.0.0",
+    "releasenote": "Starting a new era",
+    "contributors": [
+        "MaddinXx"
+    ]
+}

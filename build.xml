@@ -1,0 +1,109 @@
+<project name="hx-flow" default="exit" basedir=".">
+    <description>An optionally asynchronous flow library for Haxe.</description>
+
+    <property environment="env" />
+    <property name="workspace" location="${env.WORKSPACE}" />
+    <property name="src" location="${workspace}/src" />
+    <property name="bin"  location="${workspace}/bin" />
+    <property name="build" location="${workspace}/build" />
+    <property name="reports"  location="${workspace}/reports" />
+
+    <target name="init" description="Creates the directories needed to store output">
+        <echo>Creating all required directories...</echo>
+        <mkdir dir="${bin}" />
+        <mkdir dir="${bin}/async" />
+        <mkdir dir="${bin}/concurrent" />
+        <mkdir dir="${reports}" />
+    </target>
+
+    <target name="dependencies" depends="init" description="Installs required dependencies">
+        <echo>Installing required dependencies...</echo>
+        <exec executable="haxelib">
+            <arg value="git" />
+            <arg value="std" />
+            <arg value="git@git.rackster.ch:MaddinXx/hx-std.git" />
+        </exec>
+        <exec executable="haxelib">
+            <arg value="git" />
+            <arg value="luaxe" />
+            <arg value="https://github.com/PeyTy/LuaXe.git" />
+        </exec>
+        <exec executable="haxelib">
+            <arg value="install" />
+            <arg value="mcover" />
+        </exec>
+    </target>
+
+    <target name="build" depends="dependencies" description="Builds the unit test runners">
+        <echo>Compiling the source code...</echo>
+        <exec executable="haxe" resultproperty="build.code">
+            <arg value="${build}/build.hxml" />
+        </exec>
+        <condition property="build.failed">
+            <isfailure code="${build.code}" />
+        </condition>
+    </target>
+
+    <target name="test" depends="build" unless="build.failed" description="Runs the unit tests">
+        <echo>Running unit tests...</echo>
+        <exec executable="${bin}/cpp/Runner" resultproperty="cpp.code" />
+        <exec executable="mono" resultproperty="cs.code">
+            <arg value="${bin}/cs/bin/Runner.exe" />
+        </exec>
+        <java jar="${bin}/java/Runner.jar" fork="true" resultproperty="java.code" />
+        <exec executable="node" resultproperty="js.code">
+            <arg value="${bin}/Runner.js" />
+        </exec>
+        <exec executable="lua" resultproperty="lua.code">
+            <arg value="${bin}/Runner.lua" />
+        </exec>
+        <exec executable="neko" resultproperty="neko.code">
+            <arg value="${bin}/Runner.n" />
+        </exec>
+        <exec executable="php" resultproperty="php.code">
+            <arg value="${bin}/php/index.php" />
+        </exec>
+        <condition property="test.failed">
+            <or>
+                <isfailure code="${cpp.code}" />
+                <isfailure code="${cs.code}" />
+                <isfailure code="${java.code}" />
+                <isfailure code="${js.code}" />
+                <isfailure code="${lua.code}" />
+                <isfailure code="${neko.code}" />
+                <isfailure code="${php.code}" />
+            </or>
+        </condition>
+    </target>
+
+    <target name="cloc" depends="test" description="Counts the lines of code">
+        <echo>Counting lines of code...</echo>
+        <exec executable="cloc">
+            <arg value="--ignore-whitespace" />
+            <arg value="--read-lang-def=/usr/share/cloc/defs/haxe.txt" />
+            <arg value="--by-file" />
+            <arg value="--xml" />
+            <arg value="-out=${reports}/cloc.xml" />
+            <arg value="${src}" />
+        </exec>
+
+        <exec executable="xsltproc">
+            <arg value="-o" />
+            <arg value="${reports}/sloccount.sc" />
+            <arg value="/usr/share/cloc/cloc2sloccount.xsl" />
+            <arg value="${reports}/cloc.xml" />
+        </exec>
+    </target>
+
+    <target name="cleanup" depends="cloc" description="Removes compiled files and directories">
+        <echo>Removing (temporary) directories...</echo>
+        <delete dir="${bin}" />
+        <delete dir="${workspace}/.temp" />
+    </target>
+
+    <target name="exit" depends="cleanup" description="Marks the build as failed if one of the targets failed">
+        <fail if="build.failed">Build step failed. Check output log for more information.</fail>
+        <fail if="test.failed">Unit tests step failed. Check output log for more information.</fail>
+        <echo>Everything went well. Good job!</echo>
+    </target>
+</project>
