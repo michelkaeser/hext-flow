@@ -1,0 +1,56 @@
+# C++
+--next
+-cp  src
+-cpp bin/cpp
+-lib lib
+-xml bin/cpp.xml
+--macro "include('flow')"
+--no-output
+
+# C#
+--next
+-cp  src
+-cs  bin/cs
+-lib lib
+-xml bin/cs.xml
+--macro "include('flow')"
+--no-output
+
+# Java
+--next
+-cp   src
+-java bin/java
+-lib  lib
+-xml  bin/java.xml
+--macro "include('flow')"
+--no-output
+
+# JS
+--next
+-cp  src
+-js  bin/main.js
+-lib lib
+-xml bin/js.xml
+--macro "include('flow', true, [ 'flow.concurrent', 'flow.async' ])"
+--no-output
+
+# Neko
+--next
+-cp   src
+-neko bin/main.n
+-lib  lib
+-xml  bin/neko.xml
+--macro "include('flow')"
+--no-output
+
+# PHP
+--next
+-cp   src
+-neko bin/php
+-lib  lib
+-xml  bin/php.xml
+--macro "include('flow', true, [ 'flow.concurrent', 'flow.async' ])"
+--no-output
+
+--next
+-cmd haxelib run dox -o api -i bin -in "^flow.*" --title "hx-flow"

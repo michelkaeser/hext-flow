@@ -1,4 +1,5 @@
 # generated
+/api
 /bin
 /dist
 /.temp
