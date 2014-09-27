@@ -34,17 +34,6 @@
 -lib  lib
 -js   bin/Runner.js
 
-# Lua
---next
--cp   src
--cp   tests
--main flow/tests/Runner.hx
--lib  lib
--lib  luaxe
--js   bin/Runner.lua
--D    lua
---macro luaxe.LuaGenerator.use()
-
 # Neko
 --next
 -cp   src
