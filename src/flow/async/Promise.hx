@@ -112,21 +112,12 @@ class Promise<T> extends flow.concurrent.Promise<T>
 
             var callback:Callback<T>;
             for (callback in callbacks) { // make sure we iterate over a copy
-                this.executor.execute(function(arg:T):Void {
-                    #if FLOW_DEBUG
-                        try {
-                            callback(arg);
-                        } catch (ex:Dynamic) {
-                            this.tryUnlock();
-                            throw ex;
-                        }
-                    #else
-                        try {
-                            callback(arg);
-                        } catch (ex:Dynamic) {}
-                    #end
+                this.executor.execute(function(fn:Callback<T>, arg:T):Void {
+                    try {
+                        fn(arg);
+                    } catch (ex:Dynamic) {}
                     #if !js this.tryUnlock(); #end
-                }.bind(arg));
+                }.bind(callback, arg));
             }
         }
     }

@@ -52,21 +52,12 @@ class Dispatcher<T> extends flow.concurrent.Dispatcher<T>
 
             var callback:Callback<T>;
             for (callback in callbacks) {
-                this.executor.execute(function(arg:T):Void {
-                    #if FLOW_DEBUG
-                        try {
-                            callback(arg);
-                        } catch (ex:Dynamic) {
-                            promise.resolve(null);
-                            throw ex;
-                        }
-                    #else
-                        try {
-                            callback(arg);
-                        } catch (ex:Dynamic) {}
-                    #end
+                this.executor.execute(function(fn:Callback<T>, arg:T):Void {
+                    try {
+                        fn(arg);
+                    } catch (ex:Dynamic) {}
                     promise.resolve(null);
-                }.bind(arg));
+                }.bind(callback, arg));
             }
 
             return { status: Status.TRIGGERED, promise: promise };
