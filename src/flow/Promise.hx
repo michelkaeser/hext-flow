@@ -71,7 +71,7 @@ class Promise<T>
     public function done(callback:Callback<T>):Void
     {
         if (this.isDone()) {
-            throw new WorkflowException("Promise has already been rejected or resolved");
+            throw new WorkflowException("Promise has already been rejected or resolved.");
         }
 
         this.callbacks.done.add(callback);
@@ -137,7 +137,7 @@ class Promise<T>
     public function reject(arg:T):Void
     {
         if (this.isDone()) {
-            throw new WorkflowException("Promise has already been rejected or resolved");
+            throw new WorkflowException("Promise has already been rejected or resolved.");
         }
 
         this.state = State.REJECTED;
@@ -159,7 +159,7 @@ class Promise<T>
     public function rejected(callback:Callback<T>):Void
     {
         if (this.isDone()) {
-            throw new WorkflowException("Promise has already been rejected or resolved");
+            throw new WorkflowException("Promise has already been rejected or resolved.");
         }
 
         this.callbacks.rejected.add(callback);
@@ -178,7 +178,7 @@ class Promise<T>
     public function resolve(arg:T):Void
     {
         if (this.isDone()) {
-            throw new WorkflowException("Promise has already been rejected or resolved");
+            throw new WorkflowException("Promise has already been rejected or resolved.");
         }
 
         if (--this.resolves == 0) {
@@ -202,7 +202,7 @@ class Promise<T>
     public function resolved(callback:Callback<T>):Void
     {
         if (this.isDone()) {
-            throw new WorkflowException("Promise has already been rejected or resolved");
+            throw new WorkflowException("Promise has already been rejected or resolved.");
         }
 
         this.callbacks.resolved.add(callback);
@@ -237,7 +237,7 @@ class Promise<T>
         }
 
         if (--promise.resolves == 0) {
-            throw new WorkflowException("Promises have already been rejected or resolved");
+            throw new WorkflowException("Promises have already been rejected or resolved.");
         }
 
         return promise;

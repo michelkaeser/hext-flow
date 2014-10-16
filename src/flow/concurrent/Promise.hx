@@ -94,7 +94,7 @@ class Promise<T> extends flow.Promise<T>
         #if !js this.mutex.acquire(); #end
         if (this.state != State.NONE) {
             #if !js this.mutex.release(); #end
-            throw new WorkflowException("Promise has already been rejected or resolved");
+            throw new WorkflowException("Promise has already been rejected or resolved.");
         }
 
         this.state = State.REJECTED;
@@ -129,7 +129,7 @@ class Promise<T> extends flow.Promise<T>
         #if !js this.mutex.acquire(); #end
         if (this.state != State.NONE) {
             #if !js this.mutex.release(); #end
-            throw new WorkflowException("Promise has already been rejected or resolved");
+            throw new WorkflowException("Promise has already been rejected or resolved.");
         }
 
         if (--this.resolves == 0) {
@@ -182,7 +182,7 @@ class Promise<T> extends flow.Promise<T>
         }
 
         if (--promise.resolves == 0) {
-            throw new WorkflowException("Promises have already been rejected or resolved");
+            throw new WorkflowException("Promises have already been rejected or resolved.");
         }
 
         return promise;

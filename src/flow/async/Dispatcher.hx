@@ -20,7 +20,7 @@ import lib.threading.IExecutor;
  */
 class Dispatcher<T> extends flow.concurrent.Dispatcher<T>
 {
-    /**
+    /**§
      * Stores the Executor used to process Callbacks.
      *
      * @var lib.threading.IExecutor
@@ -66,7 +66,7 @@ class Dispatcher<T> extends flow.concurrent.Dispatcher<T>
                         } catch (ex:Dynamic) {}
                     #end
                     promise.resolve(null);
-                }, arg);
+                }.bind(arg));
             }
 
             return { status: Status.TRIGGERED, promise: promise };

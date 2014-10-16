@@ -51,7 +51,7 @@ class Cascade<T> extends flow.concurrent.Cascade<T>
                 arg = tier(arg);
             }
             #if !js future.resolve(arg); #end
-        }, arg);
+        }.bind(arg));
 
         #if !js return future; #end
     }

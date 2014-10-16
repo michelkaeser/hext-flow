@@ -8,7 +8,7 @@ import lib.threading.IExecutor;
 #end
 
 /**
- *
+ * TODO
  */
 class Promise<T> extends flow.concurrent.Promise<T>
 {
@@ -126,7 +126,7 @@ class Promise<T> extends flow.concurrent.Promise<T>
                         } catch (ex:Dynamic) {}
                     #end
                     #if !js this.tryUnlock(); #end
-                }, arg);
+                }.bind(arg));
             }
         }
     }
@@ -182,7 +182,7 @@ class Promise<T> extends flow.concurrent.Promise<T>
         }
 
         if (--promise.resolves == 0) {
-            throw new WorkflowException("Promises have already been rejected or resolved");
+            throw new WorkflowException("Promises have already been rejected or resolved.");
         }
 
         return promise;

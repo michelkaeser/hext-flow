@@ -12,7 +12,7 @@ class WorkflowException extends Exception
     /**
      * @{inherit}
      */
-    public function new(msg:Dynamic = "Error in workflow logic/synchronization", ?info:PosInfos):Void
+    public function new(msg:Dynamic = "Error in workflow logic/synchronization.", ?info:PosInfos):Void
     {
         super(msg, info);
     }

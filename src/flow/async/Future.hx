@@ -44,7 +44,7 @@ class Future<T> extends flow.concurrent.Future<T>
                 #end
             } else {
                 this.mutex.release();
-                throw new WorkflowException("Future has not been resolved yet");
+                throw new WorkflowException("Future has not been resolved yet.");
             }
         } else {
             this.mutex.release();

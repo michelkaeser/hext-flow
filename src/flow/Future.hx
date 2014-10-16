@@ -53,7 +53,7 @@ class Future<T>
     public function get(block:Bool = true):T
     {
         if (!this.isReady()) {
-            throw new WorkflowException("Future has not been resolved yet");
+            throw new WorkflowException("Future has not been resolved yet.");
         }
 
         return this.value;
@@ -97,7 +97,7 @@ class Future<T>
     public function reject():Void
     {
         if (this.isReady()) {
-            throw new WorkflowException("Future has already been rejected or resolved");
+            throw new WorkflowException("Future has already been rejected or resolved.");
         }
 
         this.state = State.REJECTED;
@@ -113,7 +113,7 @@ class Future<T>
     public function resolve(value:T):Void
     {
         if (this.isReady()) {
-            throw new WorkflowException("Future has already been resolved");
+            throw new WorkflowException("Future has already been resolved.");
         }
 
         this.value  = value;
