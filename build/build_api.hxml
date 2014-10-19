@@ -2,55 +2,55 @@
 --next
 -cp  src
 -cpp bin/cpp
--lib lib
+-lib hext-core
 -xml bin/cpp.xml
---macro "include('flow')"
+--macro "include('hext.flow')"
 --no-output
 
 # C#
 --next
 -cp  src
 -cs  bin/cs
--lib lib
+-lib hext-core
 -xml bin/cs.xml
---macro "include('flow')"
+--macro "include('hext.flow')"
 --no-output
 
 # Java
 --next
 -cp   src
 -java bin/java
--lib  lib
+-lib  hext-core
 -xml  bin/java.xml
---macro "include('flow')"
+--macro "include('hext.flow')"
 --no-output
 
 # JS
 --next
 -cp  src
 -js  bin/main.js
--lib lib
+-lib hext-core
 -xml bin/js.xml
---macro "include('flow', true, [ 'flow.concurrent', 'flow.async' ])"
+--macro "include('hext.flow', true, [ 'hext.flow.concurrent', 'hext.flow.async' ])"
 --no-output
 
 # Neko
 --next
 -cp   src
 -neko bin/main.n
--lib  lib
+-lib  hext-core
 -xml  bin/neko.xml
---macro "include('flow')"
+--macro "include('hext.flow')"
 --no-output
 
 # PHP
 --next
 -cp   src
 -neko bin/php
--lib  lib
+-lib  hext-core
 -xml  bin/php.xml
---macro "include('flow', true, [ 'flow.concurrent', 'flow.async' ])"
+--macro "include('hext.flow', true, [ 'hext.flow.concurrent', 'hext.flow.async' ])"
 --no-output
 
 --next
--cmd haxelib run dox -o api -i bin -in "^flow.*" --title "hx-flow"
+-cmd haxelib run dox -o api -i bin -in "hext.*" --title "hext-flow"

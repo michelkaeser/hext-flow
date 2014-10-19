@@ -2,9 +2,9 @@
 --next
 -cp   src
 -cp   tests
--main flow/tests/Runner.hx
+-main hext/flow/tests/Runner.hx
 -lib  mcover
--lib  lib
+-lib  hext-core
 -cpp  bin/cpp
 -D    HXCPP_M64
 -D    HXCPP_NO_COLOUR
@@ -14,40 +14,40 @@
 --next
 -cp   src
 -cp   tests
--main flow/tests/Runner.hx
--lib  lib
+-main hext/flow/tests/Runner.hx
+-lib  hext-core
 -cs   bin/cs
 
 # Java
 --next
 -cp   src
 -cp   tests
--main flow/tests/Runner.hx
--lib  lib
+-main hext/flow/tests/Runner.hx
+-lib  hext-core
 -java bin/java
 
 # JS
 --next
 -cp   src
 -cp   tests
--main flow/tests/Runner.hx
--lib  lib
+-main hext/flow/tests/Runner.hx
+-lib  hext-core
 -js   bin/Runner.js
 
 # Neko
 --next
 -cp   src
 -cp   tests
--main flow/tests/Runner.hx
--lib  lib
+-main hext/flow/tests/Runner.hx
+-lib  hext-core
 -neko bin/Runner.n
 
 # SWF
 --next
 -cp   src
 -cp   tests
--main flow/tests/Runner.hx
--lib  lib
+-main hext/flow/tests/Runner.hx
+-lib  hext-core
 -swf-version 11.4
 -swf  bin/Runner.swf
 
@@ -55,6 +55,6 @@
 --next
 -cp   src
 -cp   tests
--main flow/tests/Runner.hx
--lib  lib
+-main hext/flow/tests/Runner.hx
+-lib  hext-core
 -php  bin/php

@@ -1,10 +1,10 @@
-# hx-flow
+# hext-flow
 
 > An optionally asynchronous flow library for Haxe.
 
 ## Compilation Flags
 
-`-D FLOW_DEBUG` which enables debug mode. If compiled with this flag, exceptions thrown in Callback functions (e.g. in `Dispatcher` or `Promise`) are not catched.
+`-D HEXT_DEBUG` which enables debug mode. If compiled with this flag, exceptions thrown in Callback functions (e.g. in `hext.flow.Dispatcher` or `hext.flow.Promise`) are not catched.
 
 ## Nullability
 

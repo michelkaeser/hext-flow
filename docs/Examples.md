@@ -1,14 +1,14 @@
 # Examples
 
-> Various ready-to-use code examples showing how to use the `hx-flow`
+> Various ready-to-use code examples showing how to use the `hext-flow`
 > library.
 
 ## Cascade
 
 ```haxe
-import flow.async.Cascade;
-import flow.async.Future;
-import lib.threading.ExecutionContext;
+import hext.flow.async.Cascade;
+import hext.flow.async.Future;
+import hext.threading.ExecutionContext;
 
 var c:Cascade<Int> = new Cascade<Int>(ExecutionContext.parallelExecutor);
 
@@ -26,8 +26,8 @@ trace(f.get(true));              // should output '8'
 ## Future
 
 ```haxe
-import flow.async.Future;
-import lib.vm.Thread;
+import hext.flow.async.Future;
+import hext.vm.Thread;
 
 var f:Future<Int> = new Future<Int>();
 Thread.create(function():Void {
@@ -41,13 +41,13 @@ Sys.sleep(1); // for demo, ensures Thread had time to do its work
 ## Dispatcher
 
 ```haxe
-import flow.Dispatcher.Status;
-import flow.async.Dispatcher;
-import flow.async.Dispatcher.Feedback;
-import flow.async.Promise;
-import lib.Nil;
-import lib.threading.ExecutionContext;
-import lib.vm.Thread;
+import hext.Nil;
+import hext.flow.Dispatcher.Status;
+import hext.flow.async.Dispatcher;
+import hext.flow.async.Dispatcher.Feedback;
+import hext.flow.async.Promise;
+import hext.threading.ExecutionContext;
+import hext.vm.Thread;
 
 var d:Dispatcher<Int> = new Dispatcher<Int>(ExecutionContext.parallelExecutor);
 
@@ -65,8 +65,8 @@ if (f.status == Status.TRIGGERED) {
 ## Promise
 
 ```haxe
-import flow.async.Promise;
-import lib.threading.ExecutionContext;
+import hext.flow.async.Promise;
+import hext.threading.ExecutionContext;
 
 var p:Promise<Int> = new Promise<Int>(ExecutionContext.parallelExecutor);
 
