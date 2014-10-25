@@ -1,9 +1,7 @@
 package hext.flow.async;
 
 import hext.flow.Cascade.Tier;
-#if !js
-    import hext.flow.async.Future;
-#end
+import hext.flow.async.Future;
 import hext.threading.IExecutor;
 
 /**
@@ -37,22 +35,34 @@ class Cascade<T> extends hext.flow.concurrent.Cascade<T>
     /**
      * Asynchronous descends all the Tiers.
      *
-     * @param T arg the argument to pass to the first Tier
+     * @param T init the argument to pass to the first Tier
      *
      * @return hext.flow.async.Future<T> a Future that will get resolved by the last Tier
      */
-    public function plunge(arg:T):#if js Void #else Future<T> #end
+    public function plunge(init:T):Future<T>
     {
-        #if !js var future:Future<T> = new Future<T>(); #end
-        var tiers:Array<Tier<T>>     = Lambda.array(this.tiers); // make sure we iterate over a copy
-        this.executor.execute(function(arg:T):Void {
-            var tier:Tier<T>;
-            for (tier in tiers) {
-                arg = tier(arg);
-            }
-            #if !js future.resolve(arg); #end
-        }.bind(arg));
+        var future:Future<T>     = new Future<T>();
+        var tiers:Array<Tier<T>> = Lambda.array(this.tiers); // make sure we iterate over a copy
 
-        #if !js return future; #end
+        var arg:Future<T> = new Future<T>();
+        arg.resolve(init);
+        var i:Int    = 0;
+        var last:Int = tiers.length - 1;
+        while (i <= last) {
+            var next:Future<T>;
+            if (i == last) {
+                next = future;
+            } else {
+                next = new Future<T>();
+            }
+            this.executor.execute(function(tier:Tier<T>, arg:Future<T>, next:Future<T>):Void {
+                var ret:T = tier(arg.get(true));
+                next.resolve(ret);
+            }.bind(tiers[i], arg, next));
+            arg = next;
+            ++i;
+        }
+
+        return future;
     }
 }
