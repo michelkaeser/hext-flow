@@ -37,14 +37,14 @@ class Dispatcher<T>
     /**
      * Attachs the Callback to the Event.
      *
-     * @param hext.flow.Event        event    the Event to attach to
-     * @param Null<hext.Callback<T>> callback the Callback to add
+     * @param hext.flow.Event  event    the Event to attach to
+     * @param hext.Callback<T> callback the Callback to add
      *
      * @return Bool true if attached
      */
-    public function attach(event:Event, callback:Null<Callback<T>>):Bool
+    public function attach(event:Event, callback:Callback<T>):Bool
     {
-        if (this.hasEvent(event) && callback != null) {
+        if (this.hasEvent(event)) {
             var callbacks = this.map.get(event);
             if (!Lambda.exists(callbacks, function(fn:Callback<T>):Bool {
                 return Reflect.compareMethods(callback, fn);
@@ -61,14 +61,14 @@ class Dispatcher<T>
     /**
      * Dettachs the Callback from the Event.
      *
-     * @param hext.flow.Event        event    the Event to dettach from
-     * @param Null<hext.Callback<T>> callback the Callback to remove
+     * @param hext.flow.Event  event    the Event to dettach from
+     * @param hext.Callback<T> callback the Callback to remove
      *
      * @return Bool true if dettached successfully
      */
-    public function dettach(event:Event, callback:Null<Callback<T>>):Bool
+    public function dettach(event:Event, callbackCallback<T>):Bool
     {
-        if (this.hasEvent(event) && callback != null) {
+        if (this.hasEvent(event)) {
             if (this.map.get(event).remove(callback)) {
                 return true;
             }

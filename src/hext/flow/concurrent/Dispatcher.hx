@@ -37,7 +37,7 @@ class Dispatcher<T> extends hext.flow.Dispatcher<T>
     /**
      * @{inherit}
      */
-    override public function attach(event:Event, callback:Null<Callback<T>>):Bool
+    override public function attach(event:Event, callback:Callback<T>):Bool
     {
         var listening:Bool = false;
         #if !js this.mutex.acquire(); #end
@@ -50,7 +50,7 @@ class Dispatcher<T> extends hext.flow.Dispatcher<T>
     /**
      * @{inherit}
      */
-    override public function dettach(event:Event, callback:Null<Callback<T>>):Bool
+    override public function dettach(event:Event, callback:Callback<T>):Bool
     {
         var unlistened:Bool = false;
         #if !js this.mutex.acquire(); #end

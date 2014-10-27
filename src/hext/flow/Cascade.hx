@@ -33,7 +33,7 @@ class Cascade<T>
      *
      * @param hext.flow.Cascade.Tier<T> callback the Tier to add
      *
-     * @return hext.flow.Cascade<T> this
+     * @return hext.flow.Cascade<T> the this reference
      */
     public function add(callback:Tier<T>):Cascade<T>
     {
@@ -57,18 +57,6 @@ class Cascade<T>
 
         return arg;
     }
-
-    #if !lua
-        /**
-         * @see hext.flow.Cascade.add
-         */
-        @:deprecated('"then" is not an allowed function name in Lua. Use add() instead.')
-        public function then(callback:Tier<T>):Cascade<T>
-        {
-            this.tiers.add(callback);
-            return this;
-        }
-    #end
 }
 
 
