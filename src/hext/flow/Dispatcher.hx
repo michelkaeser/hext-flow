@@ -66,7 +66,7 @@ class Dispatcher<T>
      *
      * @return Bool true if dettached successfully
      */
-    public function dettach(event:Event, callbackCallback<T>):Bool
+    public function dettach(event:Event, callback:Callback<T>):Bool
     {
         if (this.hasEvent(event)) {
             if (this.map.get(event).remove(callback)) {
