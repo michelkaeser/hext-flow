@@ -1,5 +1,6 @@
 package hext.flow;
 
+import hext.IStringable;
 import hext.flow.State;
 import hext.flow.WorkflowException;
 
@@ -15,7 +16,7 @@ import hext.flow.WorkflowException;
  *
  * @generic T the type of value you expect
  */
-class Future<T>
+class Future<T> implements IStringable
 {
     /**
      * Stores the value that was passed when resolving.
@@ -118,5 +119,13 @@ class Future<T>
 
         this.value  = value;
         this.state = State.RESOLVED;
+    }
+
+    /**
+     * @{inherit}
+     */
+    public function toString():String
+    {
+        return Std.string(this.value);
     }
 }
