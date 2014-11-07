@@ -50,8 +50,7 @@ class Dispatcher<T> extends hext.flow.concurrent.Dispatcher<T>
             #if !js this.mutex.release(); #end
             var promise:Promise<Nil> = new Promise<Nil>(ExecutionContext.preferedExecutor, callbacks.length);
 
-            var callback:Callback<T>;
-            for (callback in callbacks) {
+            for (callback in callbacks) { // callback = Callback<T>
                 this.executor.execute(function(fn:Callback<T>, arg:T):Void {
                     try {
                         fn(arg);

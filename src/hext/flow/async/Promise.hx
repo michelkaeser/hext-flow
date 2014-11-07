@@ -110,8 +110,7 @@ class Promise<T> extends hext.flow.concurrent.Promise<T>
                 this.mutex.release();
             #end
 
-            var callback:Callback<T>;
-            for (callback in callbacks) { // make sure we iterate over a copy
+            for (callback in callbacks) { // callback = Callback<T>; make sure we iterate over a copy
                 this.executor.execute(function(fn:Callback<T>, arg:T):Void {
                     try {
                         fn(arg);

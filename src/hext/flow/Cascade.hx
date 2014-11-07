@@ -50,8 +50,7 @@ class Cascade<T>
      */
     public function descend(arg:T):T
     {
-        var tier:Tier<T>;
-        for (tier in Lambda.array(this.tiers)) { // make sure we iterate over a copy
+        for (tier in Lambda.array(this.tiers)) { // tier = Tier<T>; make sure we iterate over a copy
             arg = tier(arg);
         }
 

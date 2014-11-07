@@ -85,8 +85,7 @@ class Promise<T>
      */
     private function executeCallbacks(callbacks:Iterable<Callback<T>>, arg:T):Void
     {
-        var callback:Callback<T>;
-        for (callback in callbacks) { // make sure we iterate over a copy
+        for (callback in callbacks) { // callback = Callback<T>; make sure we iterate over a copy
             #if HEXT_DEBUG
                 callback(arg);
             #else

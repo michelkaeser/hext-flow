@@ -85,8 +85,7 @@ class Dispatcher<T>
      */
     private function executeCallbacks(callbacks:Iterable<Callback<T>>, arg:T):Void
     {
-        var callback:Callback<T>;
-        for (callback in callbacks) {
+        for (callback in callbacks) { // callback = Callback<T>;
             #if HEXT_DEBUG
                 callback(arg);
             #else
@@ -119,8 +118,7 @@ class Dispatcher<T>
     public function register(event:Event):Bool
     {
         if (!this.hasEvent(event)) {
-            var callbacks:LinkedList<Callback<T>> = new LinkedList<Callback<T>>();
-            this.map.set(event, callbacks);
+            this.map.set(event, new LinkedList<Callback<T>>());
 
             return true;
         }
