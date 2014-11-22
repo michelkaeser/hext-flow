@@ -43,25 +43,12 @@ class Cascade<T> extends hext.flow.concurrent.Cascade<T>
     {
         var future:Future<T>     = new Future<T>();
         var tiers:Array<Tier<T>> = Lambda.array(this.tiers); // make sure we iterate over a copy
-
-        var arg:Future<T> = new Future<T>();
-        arg.resolve(init);
-        var i:Int    = 0;
-        var last:Int = tiers.length - 1;
-        while (i <= last) {
-            var next:Future<T>;
-            if (i == last) {
-                next = future;
-            } else {
-                next = new Future<T>();
+        this.executor.execute(function(arg:T):Void {
+            for (tier in tiers) {
+                arg = tier(arg);
             }
-            this.executor.execute(function(tier:Tier<T>, arg:Future<T>, next:Future<T>):Void {
-                var ret:T = tier(arg.get(true));
-                next.resolve(ret);
-            }.bind(tiers[i], arg, next));
-            arg = next;
-            ++i;
-        }
+            future.resolve(arg);
+        }.bind(init));
 
         return future;
     }
