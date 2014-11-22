@@ -67,16 +67,12 @@ class Promise<T> extends hext.flow.concurrent.Promise<T>
     #if !js
         public function await():Void
         {
-            this.mutex.acquire();
             if (!this.isDone() || this.isExecuting()) {
-                this.mutex.release();
                 #if java
                     this.lock.wait();
                 #else
                     while (!this.lock.wait(0.01) && (!this.isDone() || this.isExecuting())) {}
                 #end
-            } else {
-                this.mutex.release();
             }
         }
     #end
@@ -88,9 +84,10 @@ class Promise<T> extends hext.flow.concurrent.Promise<T>
      */
     public function isExecuting():Bool
     {
-        #if !js this.mutex.acquire(); #end
-        var ret:Bool = this.executing;
-        #if !js this.mutex.release(); #end
+        var ret:Bool;
+        this.synchronizer.sync(function():Void {
+            ret = this.executing;
+        });
 
         return ret;
     }
@@ -103,13 +100,12 @@ class Promise<T> extends hext.flow.concurrent.Promise<T>
         if (Lambda.empty(callbacks)) {
             #if !js this.unlock(); #end
         } else {
-            #if !js this.mutex.acquire(); #end
-            this.executing = true;
-            #if !js
-                this.unlocks = (untyped callbacks).length;
-                this.mutex.release();
-            #end
-
+            this.synchronizer.sync(function():Void {
+                this.executing = true;
+                #if !js
+                    this.unlocks = (untyped callbacks).length;
+                #end
+            });
             for (callback in callbacks) { // callback = Callback<T>; make sure we iterate over a copy
                 this.executor.execute(function(fn:Callback<T>, arg:T):Void {
                     try {
@@ -127,12 +123,12 @@ class Promise<T> extends hext.flow.concurrent.Promise<T>
          */
         private function tryUnlock():Void
         {
-            this.mutex.acquire();
-            if (--this.unlocks == 0) {
-                this.executing = false;
-                this.unlock();
-            }
-            this.mutex.release();
+            this.synchronizer.sync(function():Void {
+                if (--this.unlocks == 0) {
+                    this.executing = false;
+                    this.unlock();
+                }
+            });
         }
 
         /**
@@ -140,9 +136,7 @@ class Promise<T> extends hext.flow.concurrent.Promise<T>
          */
         private function unlock():Void
         {
-            this.mutex.acquire();
-            this.lock.release();
-            this.mutex.release();
+            this.synchronizer.sync(this.lock.release);
         }
     #end
 
@@ -157,18 +151,18 @@ class Promise<T> extends hext.flow.concurrent.Promise<T>
 
         var promise:Promise<T> = new Promise<T>(executor, 1);
         for (p in promises) {
-            #if !js p.mutex.acquire(); #end
-            if (!p.isDone() || p.isExecuting()) {
-                ++promise.resolves;
-                p.done(function(arg:T):Void {
-                    if (p.isRejected()) {
-                        promise.reject(arg);
-                    } else {
-                        promise.resolve(arg);
-                    }
-                });
-            }
-            #if !js p.mutex.release(); #end
+            p.synchronizer.sync(function():Void {
+                if (!p.isDone() || p.isExecuting()) {
+                    ++promise.resolves;
+                    p.done(function(arg:T):Void {
+                        if (p.isRejected()) {
+                            promise.reject(arg);
+                        } else {
+                            promise.resolve(arg);
+                        }
+                    });
+                }
+            });
         }
 
         if (--promise.resolves == 0) {

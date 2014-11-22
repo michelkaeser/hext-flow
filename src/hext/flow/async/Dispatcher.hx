@@ -44,12 +44,15 @@ class Dispatcher<T> extends hext.flow.concurrent.Dispatcher<T>
      */
     override public function trigger(event:Event, arg:T):Feedback
     {
-        #if !js this.mutex.acquire(); #end
-        if (this.hasEvent(event)) {
-            var callbacks = Lambda.array(this.map.get(event)); // make sure the list doesnt change anymore
-            #if !js this.mutex.release(); #end
+        var callbacks:Array<Callback<T>> = null;
+        var has:Bool;
+        this.synchronizer.sync(function():Void {
+            if ((has = this.hasEvent(event))) {
+                callbacks = Lambda.array(this.map.get(event)); // make sure the list doesnt change anymore
+            }
+        });
+        if (has) {
             var promise:Promise<Nil> = new Promise<Nil>(ExecutionContext.preferedExecutor, callbacks.length);
-
             for (callback in callbacks) { // callback = Callback<T>
                 this.executor.execute(function(fn:Callback<T>, arg:T):Void {
                     try {
@@ -60,8 +63,6 @@ class Dispatcher<T> extends hext.flow.concurrent.Dispatcher<T>
             }
 
             return { status: Status.TRIGGERED, promise: promise };
-        } else {
-            #if !js this.mutex.release(); #end
         }
 
         return { status: Status.NO_SUCH_EVENT };

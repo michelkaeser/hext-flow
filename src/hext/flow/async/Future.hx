@@ -33,19 +33,14 @@ class Future<T> extends hext.flow.concurrent.Future<T>
      */
     override public function get(block:Bool = true):T
     {
-        this.mutex.acquire();
-        if (this.isReady()) {
-            this.mutex.release();
-        } else {
+        if (!this.isReady()) {
             if (block) {
-                this.mutex.release();
                 #if java
                     this.lock.wait();
                 #else
                     while (!this.lock.wait(0.01) && !this.isReady()) {}
                 #end
             } else {
-                this.mutex.release();
                 throw new WorkflowException("Future has not been resolved yet.");
             }
         }
@@ -58,9 +53,7 @@ class Future<T> extends hext.flow.concurrent.Future<T>
      */
     private function unlock():Void
     {
-        this.mutex.acquire();
-        this.lock.release();
-        this.mutex.release();
+        this.synchronizer.sync(this.lock.release);
     }
 
     /**

@@ -2,7 +2,8 @@ package hext.flow.concurrent;
 
 import hext.flow.State;
 import hext.flow.WorkflowException;
-import hext.vm.Mutex;
+import hext.threading.ISynchronizer;
+import hext.threading.Synchronizer;
 
 /**
  * Thread-safe Future implementation.
@@ -17,9 +18,9 @@ class Future<T> extends hext.flow.Future<T>
     /**
      * Stores the Mutex used to synchronize access to properties.
      *
-     * @var hext.vm.Mutex
+     * @var hext.threading.ISynchronizer
      */
-    private var mutex:Mutex;
+    private var synchronizer:ISynchronizer;
 
 
     /**
@@ -28,7 +29,7 @@ class Future<T> extends hext.flow.Future<T>
     public function new():Void
     {
         super();
-        this.mutex = new Mutex();
+        this.synchronizer = new Synchronizer();
     }
 
     /**
@@ -36,14 +37,10 @@ class Future<T> extends hext.flow.Future<T>
      */
     override public function get(block:Bool = true):T
     {
-        this.mutex.acquire();
-        try {
-            var value:T = super.get(block);
-        } catch (ex:Dynamic) {
-            this.mutex.release();
-            throw ex;
-        }
-        this.mutex.release();
+        var value:T;
+        this.synchronizer.sync(function(parent):Void {
+            value = parent.get(block);
+        }.bind(super));
 
         return value;
     }
@@ -53,9 +50,10 @@ class Future<T> extends hext.flow.Future<T>
      */
     override public function isReady():Bool
     {
-        this.mutex.acquire();
-        var ret:Bool = super.isReady();
-        this.mutex.release();
+        var ret:Bool;
+        this.synchronizer.sync(function(parent):Void {
+            ret = parent.isReady();
+        }.bind(super));
 
         return ret;
     }
@@ -65,9 +63,10 @@ class Future<T> extends hext.flow.Future<T>
      */
     override public function isRejected():Bool
     {
-        this.mutex.acquire();
-        var ret:Bool = super.isRejected();
-        this.mutex.release();
+        var ret:Bool;
+        this.synchronizer.sync(function(parent):Void {
+            ret = parent.isRejected();
+        }.bind(super));
 
         return ret;
     }
@@ -77,9 +76,10 @@ class Future<T> extends hext.flow.Future<T>
      */
     override public function isResolved():Bool
     {
-        this.mutex.acquire();
-        var ret:Bool = super.isResolved();
-        this.mutex.release();
+        var ret:Bool;
+        this.synchronizer.sync(function(parent):Void {
+            ret = parent.isResolved();
+        }.bind(super));
 
         return ret;
     }
@@ -89,14 +89,9 @@ class Future<T> extends hext.flow.Future<T>
      */
     override public function reject():Void
     {
-        this.mutex.acquire();
-        try {
-            super.reject();
-        } catch (ex:Dynamic) {
-            this.mutex.release();
-            throw ex;
-        }
-        this.mutex.release();
+        this.synchronizer.sync(function(parent):Void {
+            parent.reject();
+        }.bind(super));
     }
 
     /**
@@ -104,13 +99,8 @@ class Future<T> extends hext.flow.Future<T>
      */
     override public function resolve(value:T):Void
     {
-        this.mutex.acquire();
-        try {
-            super.resolve(value);
-        } catch (ex:Dynamic) {
-            this.mutex.release();
-            throw ex;
-        }
-        this.mutex.release();
+        this.synchronizer.sync(function(parent):Void {
+            parent.resolve(value);
+        }.bind(super));
     }
 }

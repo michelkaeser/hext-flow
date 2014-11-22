@@ -6,7 +6,8 @@ import hext.flow.Dispatcher.Feedback;
 import hext.flow.Dispatcher.Status;
 import hext.flow.Event;
 #if !js
-    import hext.vm.Mutex;
+    import hext.threading.ISynchronizer;
+    import hext.threading.Synchronizer;
 #end
 
 /**
@@ -18,11 +19,11 @@ import hext.flow.Event;
 class Dispatcher<T> extends hext.flow.Dispatcher<T>
 {
     /**
-     * Stores the Mutex used to synchronize access.
+     * Stores the Synchronizer used to synchronize access.
      *
-     * @var hext.vm.Mutex
+     * @var hext.threading.ISynchronizer
      */
-    #if !js private var mutex:Mutex; #end
+    #if !js private var synchronizer:ISynchronizer; #end
 
 
     /**
@@ -31,7 +32,7 @@ class Dispatcher<T> extends hext.flow.Dispatcher<T>
     public function new():Void
     {
         super();
-        #if !js this.mutex = new Mutex(); #end
+        #if !js this.synchronizer = new Synchronizer(); #end
     }
 
     /**
@@ -39,10 +40,10 @@ class Dispatcher<T> extends hext.flow.Dispatcher<T>
      */
     override public function attach(event:Event, callback:Callback<T>):Bool
     {
-        var listening:Bool = false;
-        #if !js this.mutex.acquire(); #end
-        listening = super.attach(event, callback);
-        #if !js this.mutex.release(); #end
+        var listening:Bool;
+        this.synchronizer.sync(function(parent):Void {
+            listening = parent.attach(event, callback);
+        }.bind(super));
 
         return listening;
     }
@@ -52,10 +53,10 @@ class Dispatcher<T> extends hext.flow.Dispatcher<T>
      */
     override public function dettach(event:Event, callback:Callback<T>):Bool
     {
-        var unlistened:Bool = false;
-        #if !js this.mutex.acquire(); #end
-        unlistened = super.dettach(event, callback);
-        #if !js this.mutex.release(); #end
+        var unlistened:Bool;
+        this.synchronizer.sync(function(parent):Void {
+            unlistened = parent.dettach(event, callback);
+        }.bind(super));
 
         return unlistened;
     }
@@ -65,9 +66,10 @@ class Dispatcher<T> extends hext.flow.Dispatcher<T>
      */
     override public function hasEvent(event:Event):Bool
     {
-        #if !js this.mutex.acquire(); #end
-        var ret:Bool = super.hasEvent(event);
-        #if !js this.mutex.release(); #end
+        var ret:Bool;
+        this.synchronizer.sync(function(parent):Void {
+            ret = parent.hasEvent(event);
+        }.bind(super));
 
         return ret;
     }
@@ -77,10 +79,10 @@ class Dispatcher<T> extends hext.flow.Dispatcher<T>
      */
     override public function register(event:Event):Bool
     {
-        var registered:Bool = false;
-        #if !js this.mutex.acquire(); #end
-        registered = super.register(event);
-        #if !js this.mutex.release(); #end
+        var registered:Bool;
+        this.synchronizer.sync(function(parent):Void {
+            registered = parent.register(event);
+        }.bind(super));
 
         return registered;
     }
@@ -91,10 +93,10 @@ class Dispatcher<T> extends hext.flow.Dispatcher<T>
     override public function trigger(event:Event, arg:T):Feedback
     {
         if (this.hasEvent(event)) {
-            #if !js this.mutex.acquire(); #end
-            var callbacks = this.map.get(event);
-            this.executeCallbacks(Lambda.array(callbacks), arg); // make sure we iterate over a copy
-            #if !js this.mutex.release(); #end
+            this.synchronizer.sync(function():Void {
+                var callbacks = this.map.get(event);
+                this.executeCallbacks(Lambda.array(callbacks), arg); // make sure we iterate over a copy
+            });
 
             return { status: Status.OK };
         }
@@ -107,10 +109,10 @@ class Dispatcher<T> extends hext.flow.Dispatcher<T>
      */
     override public function unregister(event:Event):Bool
     {
-        var unregistered:Bool = false;
-        #if !js this.mutex.acquire(); #end
-        unregistered = super.unregister(event);
-        #if !js this.mutex.release(); #end
+        var unregistered:Bool;
+        this.synchronizer.sync(function(parent):Void {
+            unregistered = parent.unregister(event);
+        }.bind(super));
 
         return unregistered;
     }
