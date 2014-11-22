@@ -34,7 +34,9 @@ class Future<T> extends hext.flow.concurrent.Future<T>
     override public function get(block:Bool = true):T
     {
         this.mutex.acquire();
-        if (!this.isReady()) {
+        if (this.isReady()) {
+            this.mutex.release();
+        } else {
             if (block) {
                 this.mutex.release();
                 #if java
@@ -46,8 +48,6 @@ class Future<T> extends hext.flow.concurrent.Future<T>
                 this.mutex.release();
                 throw new WorkflowException("Future has not been resolved yet.");
             }
-        } else {
-            this.mutex.release();
         }
 
         return this.value;

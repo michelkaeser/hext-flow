@@ -53,11 +53,11 @@ class Future<T> implements IStringable
      */
     public function get(block:Bool = true):T
     {
-        if (!this.isReady()) {
-            throw new WorkflowException("Future has not been resolved yet.");
+        if (this.isReady()) {
+            return this.value;
         }
 
-        return this.value;
+        throw new WorkflowException("Future has not been resolved yet.");
     }
 
     /**
