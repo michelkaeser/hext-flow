@@ -1,15 +1,15 @@
 {
     "name": "hext-flow",
-    "url" : "",
+    "url" : "https://github.com/michelkaeser/hext-flow",
     "license": "MIT",
     "tags": ["dispatch", "promise", "future", "async", "threaded", "event", "signal", "flow"],
     "description": "An optionally asynchronous flow library.",
     "classPath": "src",
     "dependencies": {
-        "hext-core": ""
+        "hext-core": "1.0.0-alpha"
     },
-    "version": "0.0.0",
-    "releasenote": "",
+    "version": "1.0.0-alpha",
+    "releasenote": "First haxelib release.",
     "contributors": [
         "MaddinXx"
     ]
