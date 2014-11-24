@@ -36,9 +36,10 @@ class Future<T> extends hext.flow.Future<T>
      */
     override public function get(block:Bool = true):T
     {
+        var value:T;
         this.mutex.acquire();
         try {
-            var value:T = super.get(block);
+            value = super.get(block);
         } catch (ex:Dynamic) {
             this.mutex.release();
             throw ex;
@@ -53,11 +54,12 @@ class Future<T> extends hext.flow.Future<T>
      */
     override public function isReady():Bool
     {
+        var ready:Bool;
         this.mutex.acquire();
-        var ret:Bool = super.isReady();
+        ready = super.isReady();
         this.mutex.release();
 
-        return ret;
+        return ready;
     }
 
     /**
@@ -65,11 +67,12 @@ class Future<T> extends hext.flow.Future<T>
      */
     override public function isRejected():Bool
     {
+        var rejected:Bool;
         this.mutex.acquire();
-        var ret:Bool = super.isRejected();
+        rejected = super.isRejected();
         this.mutex.release();
 
-        return ret;
+        return rejected;
     }
 
     /**
@@ -77,11 +80,12 @@ class Future<T> extends hext.flow.Future<T>
      */
     override public function isResolved():Bool
     {
+        var resolved:Bool;
         this.mutex.acquire();
-        var ret:Bool = super.isResolved();
+        resolved = super.isResolved();
         this.mutex.release();
 
-        return ret;
+        return resolved;
     }
 
     /**

@@ -7,6 +7,7 @@ import hext.flow.Dispatcher.Status;
     import hext.flow.async.Promise;
 #end
 import hext.Callback;
+import hext.IterableTools;
 import hext.Nil;
 import hext.threading.ExecutionContext;
 import hext.threading.IExecutor;
@@ -46,10 +47,9 @@ class Dispatcher<T> extends hext.flow.concurrent.Dispatcher<T>
     {
         #if !js this.mutex.acquire(); #end
         if (this.hasEvent(event)) {
-            var callbacks = Lambda.array(this.map.get(event)); // make sure the list doesnt change anymore
+            var callbacks:List<Callback<T>> = IterableTools.toList(this.map.get(event)); // make sure the list doesnt change anymore
             #if !js this.mutex.release(); #end
             var promise:Promise<Nil> = new Promise<Nil>(ExecutionContext.preferedExecutor, callbacks.length);
-
             for (callback in callbacks) { // callback = Callback<T>
                 this.executor.execute(function(fn:Callback<T>, arg:T):Void {
                     try {

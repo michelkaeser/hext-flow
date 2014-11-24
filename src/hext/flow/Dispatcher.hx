@@ -2,9 +2,10 @@ package hext.flow;
 
 import Map;
 import hext.Callback;
-import hext.ds.IList;
-import hext.ds.LinkedList;
+import hext.IterableTools;
 import hext.flow.Event;
+
+using Lambda;
 
 /**
  * The Dispatcher class can be used to have a central Event dispatching service/instance.
@@ -21,9 +22,9 @@ class Dispatcher<T>
     /**
      * Stores a map of Events and their Callbacks.
      *
-     * @var Map<hext.flow.Event, hext.ds.IList<hext.Callback<T>>>
+     * @var Map<hext.flow.Event, List<hext.Callback<T>>>
      */
-    private var map:Map<Event, IList<Callback<T>>>;
+    private var map:Map<Event, List<Callback<T>>>;
 
 
     /**
@@ -31,7 +32,7 @@ class Dispatcher<T>
      */
     public function new():Void
     {
-        this.map = cast new Map<Event, LinkedList<Callback<T>>>();
+        this.map = cast new Map<Event, List<Callback<T>>>();
     }
 
     /**
@@ -46,7 +47,7 @@ class Dispatcher<T>
     {
         if (this.hasEvent(event)) {
             var callbacks = this.map.get(event);
-            if (!Lambda.exists(callbacks, function(fn:Callback<T>):Bool {
+            if (!callbacks.exists(function(fn:Callback<T>):Bool {
                 return Reflect.compareMethods(callback, fn);
             })) {
                 callbacks.add(callback);
@@ -118,7 +119,7 @@ class Dispatcher<T>
     public function register(event:Event):Bool
     {
         if (!this.hasEvent(event)) {
-            this.map.set(event, new LinkedList<Callback<T>>());
+            this.map.set(event, new List<Callback<T>>());
 
             return true;
         }
@@ -137,7 +138,7 @@ class Dispatcher<T>
     public function trigger(event:Event, arg:T):Feedback
     {
         if (this.hasEvent(event)) {
-            this.executeCallbacks(Lambda.array(this.map.get(event)), arg); // make sure we iterate over a copy
+            this.executeCallbacks(IterableTools.toList(this.map.get(event)), arg); // make sure we iterate over a copy
 
             return { status: Status.OK };
         }

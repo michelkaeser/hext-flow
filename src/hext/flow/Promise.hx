@@ -2,10 +2,10 @@ package hext.flow;
 
 import hext.Callback;
 import hext.Exception;
-import hext.ds.IList;
-import hext.ds.LinkedList;
 import hext.flow.State;
 import hext.flow.WorkflowException;
+
+using hext.ListTools;
 
 /**
  * A Promise can be used to execute registered callbacks as soon as
@@ -28,12 +28,12 @@ class Promise<T>
     /**
      * Stores the callbacks to be executed for the various state events.
      *
-     * @var { done:hext.ds.IList<hext.Callback<T>>, rejected:hext.ds.IList<hext.Callback<T>>, resolved:hext.ds.IList<hext.Callback<T>> }
+     * @var { done:List<hext.Callback<T>>, rejected:List<hext.Callback<T>>, resolved:List<hext.Callback<T>> }
      */
     private var callbacks:{
-        done:IList<Callback<T>>,
-        rejected:IList<Callback<T>>,
-        resolved:IList<Callback<T>>
+        done:List<Callback<T>>,
+        rejected:List<Callback<T>>,
+        resolved:List<Callback<T>>
     };
 
     /**
@@ -52,9 +52,9 @@ class Promise<T>
     public function new(resolves:Int = 1):Void
     {
         this.callbacks = {
-            done:     new LinkedList<Callback<T>>(),
-            rejected: new LinkedList<Callback<T>>(),
-            resolved: new LinkedList<Callback<T>>()
+            done:     new List<Callback<T>>(),
+            rejected: new List<Callback<T>>(),
+            resolved: new List<Callback<T>>()
         };
         this.resolves  = resolves;
         this.state     = State.NONE;
@@ -85,7 +85,7 @@ class Promise<T>
      */
     private function executeCallbacks(callbacks:Iterable<Callback<T>>, arg:T):Void
     {
-        for (callback in callbacks) { // callback = Callback<T>; make sure we iterate over a copy
+        for (callback in callbacks) { // callback = Callback<T>
             #if HEXT_DEBUG
                 callback(arg);
             #else
@@ -140,8 +140,9 @@ class Promise<T>
         }
 
         this.state = State.REJECTED;
-        this.executeCallbacks(Lambda.array(this.callbacks.rejected).concat(Lambda.array(this.callbacks.done)), arg); // make sure we iterate over copy
-
+        var callbacks:List<Callback<T>> = IterableTools.toList(this.callbacks.rejected);
+        callbacks.addAll(this.callbacks.done);
+        this.executeCallbacks(callbacks, arg);
         this.callbacks.done     = null;
         this.callbacks.rejected = null;
         this.callbacks.resolved = null;
@@ -182,8 +183,9 @@ class Promise<T>
 
         if (--this.resolves == 0) {
             this.state = State.RESOLVED;
-            this.executeCallbacks(Lambda.array(this.callbacks.resolved).concat(Lambda.array(this.callbacks.done)), arg); // make sure we iterate over copy
-
+            var callbacks:List<Callback<T>> = IterableTools.toList(this.callbacks.resolved);
+            callbacks.addAll(this.callbacks.done);
+            this.executeCallbacks(callbacks, arg);
             this.callbacks.done     = null;
             this.callbacks.rejected = null;
             this.callbacks.resolved = null;

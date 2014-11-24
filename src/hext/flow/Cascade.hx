@@ -1,7 +1,6 @@
 package hext.flow;
 
-import hext.ds.IList;
-import hext.ds.LinkedList;
+import hext.IterableTools;
 
 /**
  * The Cascade (waterfall) class can be used to execute functions
@@ -15,9 +14,9 @@ class Cascade<T>
     /**
      * Stores the Tiers.
      *
-     * @var hext.ds.IList<flow.Cascade.Tier<T>>
+     * @var List<hext.flow.Cascade.Tier<T>>
      */
-    private var tiers:IList<Tier<T>>;
+    private var tiers:List<Tier<T>>;
 
 
     /**
@@ -25,7 +24,7 @@ class Cascade<T>
      */
     public function new():Void
     {
-        this.tiers = new LinkedList<Tier<T>>();
+        this.tiers = new List<Tier<T>>();
     }
 
     /**
@@ -50,7 +49,8 @@ class Cascade<T>
      */
     public function descend(arg:T):T
     {
-        for (tier in Lambda.array(this.tiers)) { // tier = Tier<T>; make sure we iterate over a copy
+        // tier = Tier<T>; no need to iterate over a copy as removing from the list is not possible
+        for (tier in IterableTools.toList(this.tiers)) {
             arg = tier(arg);
         }
 

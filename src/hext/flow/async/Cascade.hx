@@ -1,5 +1,6 @@
 package hext.flow.async;
 
+import hext.IterableTools;
 import hext.flow.Cascade.Tier;
 import hext.flow.async.Future;
 import hext.threading.IExecutor;
@@ -41,8 +42,8 @@ class Cascade<T> extends hext.flow.concurrent.Cascade<T>
      */
     public function plunge(init:T):Future<T>
     {
-        var future:Future<T>     = new Future<T>();
-        var tiers:Array<Tier<T>> = Lambda.array(this.tiers); // make sure we iterate over a copy
+        var future:Future<T>    = new Future<T>();
+        var tiers:List<Tier<T>> = IterableTools.toList(this.tiers);
         this.executor.execute(function(arg:T):Void {
             for (tier in tiers) {
                 arg = tier(arg);

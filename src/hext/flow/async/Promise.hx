@@ -7,6 +7,8 @@ import hext.threading.IExecutor;
     import hext.vm.MultiLock;
 #end
 
+using hext.IterableTools;
+
 /**
  * TODO
  */
@@ -88,11 +90,12 @@ class Promise<T> extends hext.flow.concurrent.Promise<T>
      */
     public function isExecuting():Bool
     {
+        var executing:Bool;
         #if !js this.mutex.acquire(); #end
-        var ret:Bool = this.executing;
+        executing = this.executing;
         #if !js this.mutex.release(); #end
 
-        return ret;
+        return executing;
     }
 
     /**
@@ -100,7 +103,7 @@ class Promise<T> extends hext.flow.concurrent.Promise<T>
      */
     override private function executeCallbacks(callbacks:Iterable<Callback<T>>, arg:T):Void
     {
-        if (Lambda.empty(callbacks)) {
+        if (callbacks.isEmpty()) {
             #if !js this.unlock(); #end
         } else {
             #if !js this.mutex.acquire(); #end

@@ -1,6 +1,5 @@
 package hext.flow;
 
-import hext.IStringable;
 import hext.flow.State;
 import hext.flow.WorkflowException;
 
@@ -16,7 +15,7 @@ import hext.flow.WorkflowException;
  *
  * @generic T the type of value you expect
  */
-class Future<T> implements IStringable
+class Future<T>
 {
     /**
      * Stores the value that was passed when resolving.

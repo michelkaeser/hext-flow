@@ -1,7 +1,7 @@
 package hext.flow.concurrent;
 
 #if !js
-    import hext.ds.SynchronizedList;
+    import hext.threading.ds.SynchronizedList;
 #end
 import hext.flow.Cascade.Tier;
 
@@ -18,6 +18,6 @@ class Cascade<T> extends hext.flow.Cascade<T>
     public function new():Void
     {
         super();
-        #if !js this.tiers = new SynchronizedList<Tier<T>>(this.tiers); #end
+        #if !js this.tiers = new SynchronizedList<Tier<T>>(); #end
     }
 }

@@ -1,11 +1,14 @@
 package hext.flow.concurrent;
 
 import hext.Callback;
+import hext.IterableTools;
 import hext.flow.State;
 import hext.flow.WorkflowException;
 #if !js
     import hext.vm.Mutex;
 #end
+
+using hext.ListTools;
 
 /**
  * Thread-safe Promise implementation.
@@ -54,11 +57,12 @@ class Promise<T> extends hext.flow.Promise<T>
      */
     override public function isDone():Bool
     {
+        var done:Bool;
         #if !js this.mutex.acquire(); #end
-        var ret:Bool = super.isDone();
+        done = super.isDone();
         #if !js this.mutex.release(); #end
 
-        return ret;
+        return done;
     }
 
     /**
@@ -66,11 +70,12 @@ class Promise<T> extends hext.flow.Promise<T>
      */
     override public function isRejected():Bool
     {
+        var rejected:Bool;
         #if !js this.mutex.acquire(); #end
-        var ret:Bool = super.isRejected();
+        rejected = super.isRejected();
         #if !js this.mutex.release(); #end
 
-        return ret;
+        return rejected;
     }
 
     /**
@@ -78,11 +83,12 @@ class Promise<T> extends hext.flow.Promise<T>
      */
     override public function isResolved():Bool
     {
+        var resolved:Bool;
         #if !js this.mutex.acquire(); #end
-        var ret:Bool = super.isResolved();
+        resolved = super.isResolved();
         #if !js this.mutex.release(); #end
 
-        return ret;
+        return resolved;
     }
 
     /**
@@ -97,9 +103,10 @@ class Promise<T> extends hext.flow.Promise<T>
         }
 
         this.state = State.REJECTED;
-        this.executeCallbacks(Lambda.array(this.callbacks.rejected).concat(Lambda.array(this.callbacks.done)), arg); // make sure we iterate over copy
+        var callbacks:List<Callback<T>> = IterableTools.toList(this.callbacks.rejected);
+        callbacks.addAll(this.callbacks.done);
+        this.executeCallbacks(callbacks, arg);
         #if !js this.mutex.release(); #end
-
         this.callbacks.done     = null;
         this.callbacks.rejected = null;
         this.callbacks.resolved = null;
@@ -133,9 +140,10 @@ class Promise<T> extends hext.flow.Promise<T>
 
         if (--this.resolves == 0) {
             this.state = State.RESOLVED;
-            this.executeCallbacks(Lambda.array(this.callbacks.resolved).concat(Lambda.array(this.callbacks.done)), arg); // make sure we iterate over copy
+            var callbacks:List<Callback<T>> = IterableTools.toList(this.callbacks.resolved);
+            callbacks.addAll(this.callbacks.done);
+            this.executeCallbacks(callbacks, arg);
             #if !js this.mutex.release(); #end
-
             this.callbacks.done     = null;
             this.callbacks.rejected = null;
             this.callbacks.resolved = null;
